@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
+from sqlalchemy import text
 
 app = Flask(__name__)
 
@@ -18,9 +19,9 @@ elif os.getenv('ENV') == 'dev':
 elif os.getenv('ENV') == 'ghci':
     print("Running in github mode")
     app.config.from_object('config.GithubCIConfig')
-else:
+'''else:
     print("Running in production mode")
-    app.config.from_object('config.ProductionConfig')
+    app.config.from_object('config.ProductionConfig') '''
 
 db = SQLAlchemy(app)
 
