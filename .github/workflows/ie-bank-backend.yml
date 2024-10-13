@@ -22,9 +22,9 @@ jobs:
       ENV: ghci
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python 3.11
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: "3.11"
     - name: Upgrade pip
@@ -70,7 +70,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: 'Deploy to Azure Web App Developement'
-      uses: azure/webapps-deploy@v2         #v3?
+      uses: azure/webapps-deploy@v3         
       id: deploy-to-webapp
       with:
         app-name: ${{ env.BACKEND_WEBAPP_DEV }}
@@ -87,15 +87,17 @@ jobs:
 
     steps:
     - name: Download artifacts from build job
-      uses: actions/download-artifact@4v
+      uses: actions/download-artifact@v4
       with:
         name: pythona-app
         path: . 
+        
     - uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: 'Deploy to Azure Web App UAT'
-      uses: azure/webapps-deploy@v2     
+      uses: azure/webapps-deploy@v3     
       id: deploy-to-webapp
       with: 
         app-name: ${{ env.BACKEND_WEBAPP_UAT }}
