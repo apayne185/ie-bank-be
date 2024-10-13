@@ -2,9 +2,12 @@ name: ie-bank-backend
 
 on:
   push:
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches:
+      - '*'     #runs on any branch - dev
+  pull-request:
+    branches: 
+      - main    #runs on pull request to main - uat
+  workflow_dispatch:     #allows for manual triggereing 
 
 permissions:
   contents: read
@@ -12,7 +15,7 @@ permissions:
 
 env:
   BACKEND_WEBAPP_DEV: apayne-be-dev
-  BACKEND_WEBAPP_UAT: apayne-be-uat     #need to set this up on azure
+  BACKEND_WEBAPP_UAT: apayne-be-uat     
 
 jobs:
   build:
@@ -51,7 +54,7 @@ jobs:
           . 
 
   deploy-dev:
-    if: github.ref != 'ref/heads/main' && github.event_name == 'push'
+    if: github.ref != 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -78,7 +81,7 @@ jobs:
     
 
   deploy-uat:
-    if: github.event_name =='push'
+    if: github.event_name == 'push' || github.event_name == 'pull-request'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -89,7 +92,7 @@ jobs:
     - name: Download artifacts from build job
       uses: actions/download-artifact@v4
       with:
-        name: pythona-app
+        name: python-app
         path: . 
         
     - uses: azure/login@v2
