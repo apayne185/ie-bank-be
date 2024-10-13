@@ -5,9 +5,12 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import text
 
-app = Flask(__name__)
 
 load_dotenv()
+
+app = Flask(__name__)
+
+db = SQLAlchemy(app)
 
 # Select environment based on the ENV environment variable
 if os.getenv('ENV') == 'local':
@@ -23,11 +26,14 @@ elif os.getenv('ENV') == 'ghci':
     print("Running in production mode")
     app.config.from_object('config.ProductionConfig') '''
 
-db = SQLAlchemy(app)
 
 from iebank_api.models import Account
 
 with app.app_context():
+    # uncomment when necessary to add country to the account table
+    # query = text("ALTER TABLE account ADD COLUMN country VARCHAR(32)")
+    # db.session.execute(query)
+    # db.session.commit()
     db.create_all()
 CORS(app)
 
