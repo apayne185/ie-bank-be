@@ -9,9 +9,9 @@ from sqlalchemy import text
 load_dotenv()
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///your_database.db'
 
-#db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
 # Select environment based on the ENV environment variable
 if os.getenv('ENV') == 'local':
@@ -30,7 +30,7 @@ elif os.getenv('ENV') == 'uat':
     print("Running in production mode")
     app.config.from_object('config.ProductionConfig') '''
 
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 from iebank_api.models import Account
 

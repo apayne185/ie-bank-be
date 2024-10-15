@@ -28,3 +28,12 @@ class DevelopmentConfig(Config):
         dbname=os.getenv('DBNAME')
     )
     DEBUG = True
+
+class UATConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
+    dbuser=os.getenv('UAT_DBUSER'),
+    dbpass=os.getenv('UAT_DBPASS'),
+    dbhost=os.getenv('UAT_DBHOST'),
+    dbname=os.getenv('UAT_DBNAME')
+    )
+    DEBUG = False
