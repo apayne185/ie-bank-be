@@ -25,12 +25,10 @@ elif os.getenv('ENV') == 'ghci':
     app.config.from_object('config.GithubCIConfig')
 elif os.getenv('ENV') == 'uat':
     print("Running in uat mode")
-    app.config.from_object('config.UATConfig')
+    app.config.from_object('config.UatConfig')
 '''else:
     print("Running in production mode")
     app.config.from_object('config.ProductionConfig') '''
-
-#db = SQLAlchemy(app)
 
 from iebank_api.models import Account
 
